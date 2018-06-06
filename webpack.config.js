@@ -15,8 +15,6 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    // 加上hash后就可以将资源的过期时间设置成不过期了
-    // 如果使用了extract-text插件，别忘了也把hash加上
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js',
   },
