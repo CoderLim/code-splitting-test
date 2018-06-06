@@ -7,9 +7,11 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   mode: 'development',
+  // mode: 'production',
   entry: {
     bundle: './src/index.jsx'
   },
@@ -39,17 +41,32 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
-      chunkfilename: '[id].[contenthash].css',
+      chunkfilename: '[name].[id].[contenthash].css',
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'src/index.tpl',
     }),
+    new UglifyJsPlugin(),
     new CleanWebpackPlugin('dist', {}),
   ],
   optimization: {
     splitChunks: {
-      chunks: 'all'
+      chunks: 'all',
+      /*minSize: 30000,
+      minChunks: 1,
+      name: true,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        }
+      }*/
     },
   },
   devServer: {
